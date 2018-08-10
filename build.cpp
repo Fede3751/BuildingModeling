@@ -188,7 +188,7 @@ std::vector<std::vector<int>> subdivideFace(Building* b, std::vector<int> f, int
 	std::vector<std::vector<int>> res = std::vector<std::vector<int>>(to - from);
 
 	for (int i = 0; i < to - from; i++)
-		res[i] = subdivideFace(b, f[i], w, h);
+		res[i] = subdivideFace(b, f[i + from], w, h);
 
 
 	return res;
@@ -349,7 +349,7 @@ std::vector<int> subFace(Building* b, std::vector<int> f, float xSub, float ySub
 	std::vector<int> res = std::vector<int>(to - from);
 
 	for (int i = 0; i < to - from; i++)
-		res[i] = subFace(b, f[i], xSub, ySub, offsetX, offsetY)[4];
+		res[i] = subFace(b, f[i + from], xSub, ySub, offsetX, offsetY)[4];
 
 
 	return res;
