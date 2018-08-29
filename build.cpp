@@ -197,6 +197,41 @@ std::vector<std::vector<int>> subdivideFace(Building* b, std::vector<int> f, int
 }
 
 
+std::vector<int> horizontalSlice(Building* b, int f, float h) {
+
+	auto v = b->faces[f].v;
+
+	auto p1 = b->points[v.w];
+	auto p2 = b->points[v.z];
+
+
+	auto hAmnt = (b->points[v.x] - b->points[v.w]) * (1 - h);
+
+
+	p1 = p1 + hAmnt;
+	p2 = p2 + hAmnt;
+
+	printf("%f %f %f\n", hAmnt.x, hAmnt.y, hAmnt.z);
+	printf("%f %f %f\n", p1.x, p1.y, p1.y);
+	printf("%f %f %f\n", b->points[v.w].x, b->points[v.w].y, b->points[v.w].z);
+
+
+	int p1Ind = b->points.size();
+	int p2Ind = b->points.size() + 1;
+
+
+	b->points.push_back(p1);
+	b->points.push_back(p2);
+
+
+	b->faces.push_back({ {p1Ind, p2Ind, v.z, v.w}, b->faces[f].orientation });
+	b->faces[f].v = { v.x, v.y, p2Ind, p1Ind };
+
+	return { f, (int)b->faces.size() - 1 };
+
+
+}
+
 //void Building::subdivideFace(int n, int f) {};
 
 
@@ -208,6 +243,7 @@ ModResult pullFace(Building* b, int f, float value) {
 	int i = b->faces.size();
 
 	auto verse = value / std::abs(value);
+
 
 	printf("%f\n", verse);
 
@@ -241,13 +277,20 @@ ModResult pullFace(Building* b, int f, float value) {
 		b->faces.push_back({ { newP.y, oldP.y, oldP.z, newP.z }, Dir.WEST * verse });
 		b->faces.push_back({ { oldP.x, oldP.y, newP.y, newP.x }, Dir.DOWN * verse });
 		b->faces.push_back({ { oldP.x, newP.x, newP.w, oldP.w }, Dir.EAST * verse });
-		b->faces.push_back({ { oldP.z, oldP.w, newP.w, newP.z }, Dir.UP });
+		b->faces.push_back({ { oldP.z, oldP.w, newP.w, newP.z }, Dir.UP   * verse });
 	}
 	else if (b->faces[f].orientation == Dir.EAST) {
+
+		printf("Hello\n");
+
 		b->faces.push_back({ { newP.y, oldP.y, oldP.z, newP.z }, Dir.NORTH * verse });
 		b->faces.push_back({ { newP.x, oldP.x, oldP.y, newP.y }, Dir.DOWN  * verse });
 		b->faces.push_back({ { oldP.x, newP.x, newP.w, oldP.w }, Dir.SOUTH * verse });
 		b->faces.push_back({ { oldP.w, newP.w, newP.z, oldP.z }, Dir.UP    * verse });
+
+		printf("%f %f %f\n", b->faces[b->faces.size()-1].orientation.x, b->faces[b->faces.size()-1].orientation.y, b->faces[b->faces.size()-1].orientation.z);
+
+		
 	}
 	else if (b->faces[f].orientation == Dir.WEST) {
 		b->faces.push_back({ { oldP.x, newP.x, newP.w, oldP.w }, Dir.NORTH * verse });
@@ -310,6 +353,9 @@ std::vector<int> subFace(Building* b, int f, float xSub, float ySub, float offse
 	auto wInner = wOuter * xSub;
 	auto hInner = hOuter * ySub;
 
+	auto wOffset = wOuter * offsetX;
+	auto hOffset = hOuter * offsetY;
+
 
 	auto grid = subdivideFace(b, f, 3, 3);
 
@@ -356,12 +402,14 @@ std::vector<int> subFace(Building* b, std::vector<int> f, float xSub, float ySub
 }
 
 
-void makeRoofs(Building* b, ygl::vec3f axis) {
+void makeRoofs(Building* b, ygl::vec3f axis, int amnt) {
 
 	int i = 0;
 	for (Face f : b->faces) {
+
 		if (f.orientation == Dir.UP) {
-			pointFace(b, i, axis);
+			pointFace(b, i, axis, amnt);
+			printf("HELLO\n");
 		}
 		i++;
 	}
@@ -369,7 +417,7 @@ void makeRoofs(Building* b, ygl::vec3f axis) {
 }
 
 
-void pointFace(Building* b, int f, ygl::vec3f axis) {
+void pointFace(Building* b, int f, ygl::vec3f axis, int amnt) {
 
 
 	auto v = b->faces[f].v;
@@ -383,6 +431,7 @@ void pointFace(Building* b, int f, ygl::vec3f axis) {
 
 		b->faces[f].v = { v.x, v.y, s + 1, s };
 		b->faces.push_back({ { s, s + 1, v.z, v.w }, Dir.UP });
+		
 		b->faces.push_back({ { v.w, v.x, s, s }, Dir.EAST });
 		b->faces.push_back({ { v.y, v.z, s + 1, s + 1 }, Dir.WEST });
 
@@ -394,14 +443,18 @@ void pointFace(Building* b, int f, ygl::vec3f axis) {
 		b->faces[f].v = { v.x, s, s + 1, v.w };
 		b->faces.push_back({ { s + 1, s, v.y, v.z }, Dir.UP });
 
+
+		b->faces.push_back({ { v.x, v.y, s, s }, Dir.SOUTH });
+		b->faces.push_back({ { v.w, v.z, s + 1, s + 1 }, Dir.NORTH });
+
 	}
 
 	b->points.push_back(p1);
 	b->points.push_back(p2);
 
 
-	b->points[s] += Dir.UP * 5;
-	b->points[s + 1] += Dir.UP * 5;
+	b->points[s] += Dir.UP * amnt;
+	b->points[s + 1] += Dir.UP * amnt;
 
 
 };

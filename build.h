@@ -166,6 +166,11 @@ std::vector<int> subdivideFace(Building* b, int f, int w, int h);
 
 
 
+
+std::vector<int> horizontalSlice(Building* b, int f, float h);
+
+
+
 /*
   Function used to subdivide in 3x3 smaller faces with the central one with
   the size relative to the full face, multiplied by the xSub and ySub for every dimension.
@@ -239,7 +244,7 @@ std::vector<ModResult> pullFace(Building* b, std::vector<int> f, float value, in
 		None.
 
 */
-void makeRoofs(Building* b, ygl::vec3f axis);
+void makeRoofs(Building* b, ygl::vec3f axis, int amnt);
 
 
 /*
@@ -259,7 +264,7 @@ void makeRoofs(Building* b, ygl::vec3f axis);
 		None.
 
 */
-void pointFace(Building* b, int f, ygl::vec3f axis);
+void pointFace(Building* b, int f, ygl::vec3f axis, int amnt);
 
 
 /*
