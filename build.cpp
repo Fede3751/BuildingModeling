@@ -211,9 +211,6 @@ std::vector<int> horizontalSlice(Building* b, int f, float h) {
 	p1 = p1 + hAmnt;
 	p2 = p2 + hAmnt;
 
-	printf("%f %f %f\n", hAmnt.x, hAmnt.y, hAmnt.z);
-	printf("%f %f %f\n", p1.x, p1.y, p1.y);
-	printf("%f %f %f\n", b->points[v.w].x, b->points[v.w].y, b->points[v.w].z);
 
 
 	int p1Ind = b->points.size();
@@ -244,8 +241,6 @@ ModResult pullFace(Building* b, int f, float value) {
 
 	auto verse = value / std::abs(value);
 
-
-	printf("%f\n", verse);
 
 	std::vector<int> temp = std::vector<int>{ f, i, i + 1, i + 2, i + 3 };
 
@@ -281,14 +276,12 @@ ModResult pullFace(Building* b, int f, float value) {
 	}
 	else if (b->faces[f].orientation == Dir.EAST) {
 
-		printf("Hello\n");
 
 		b->faces.push_back({ { newP.y, oldP.y, oldP.z, newP.z }, Dir.NORTH * verse });
 		b->faces.push_back({ { newP.x, oldP.x, oldP.y, newP.y }, Dir.DOWN  * verse });
 		b->faces.push_back({ { oldP.x, newP.x, newP.w, oldP.w }, Dir.SOUTH * verse });
 		b->faces.push_back({ { oldP.w, newP.w, newP.z, oldP.z }, Dir.UP    * verse });
 
-		printf("%f %f %f\n", b->faces[b->faces.size()-1].orientation.x, b->faces[b->faces.size()-1].orientation.y, b->faces[b->faces.size()-1].orientation.z);
 
 		
 	}
@@ -409,7 +402,6 @@ void makeRoofs(Building* b, ygl::vec3f axis, int amnt) {
 
 		if (f.orientation == Dir.UP) {
 			pointFace(b, i, axis, amnt);
-			printf("HELLO\n");
 		}
 		i++;
 	}
