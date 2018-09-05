@@ -1,6 +1,6 @@
 /*
 
-BUILDING MODELLING.
+BUILDING MODELING.
 Computer Graphic Project 2017-2018
 Student: Federico Trombetti
 ID: 1665803
@@ -19,7 +19,7 @@ a simpler way, the new faces which the transformation created.
 Function which subdivide faces without actually creating new shapes will instead return a vector
 of integers, which represent the indices of the new faces creaeted in a row-major order, starting
 from the top left of the face (with top it is meant the highest face in case of faces which span in height,
-or the face wich is north-wise most far, for those faces wich span from south to north).
+or the face which is north-wise most far, for those faces which span from south to north).
 
 There are three type of functions:
 
@@ -83,7 +83,7 @@ struct Direction {
 
 
 //struture used to orientate result values after a trasformation
-//whenever a transformation wich result in a new shape getting created is used,
+//whenever a transformation which result in a new shape getting created is used,
 //a ModResult is returned, where every value of it cointains the indices of the
 //the faces of the new shape in the array of faces of the building.
 struct ModResult {
@@ -248,7 +248,7 @@ void makeRoofs(Building* b, ygl::vec3f axis, int amnt);
 
 
 /*
-  Function used to make a face wich points up a roof.
+  Function used to make a face which points up a roof.
   Note that this function is final and won't return anything to work on,
   the roofs are a shape which is not exactly aligned to any cardinal direction
   and cannot be modified anymore by using the library, operations using the

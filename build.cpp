@@ -1,6 +1,6 @@
 /*
 
-BUILDING MODELLING.
+BUILDING MODELING.
 Computer Graphic Project 2017-2018
 Student: Federico Trombetti
 ID: 1665803
