@@ -1,7 +1,7 @@
 /*
 
 BUILDING MODELING.
-Computer Graphic Project 2017-2018
+Computer Graphics Project 2017-2018
 Student: Federico Trombetti
 ID: 1665803
 
@@ -82,10 +82,12 @@ struct Direction {
 //--------------------------------------------------------------------------
 
 
-//struture used to orientate result values after a trasformation
-//whenever a transformation which result in a new shape getting created is used,
-//a ModResult is returned, where every value of it cointains the indices of the
-//the faces of the new shape in the array of faces of the building.
+/* 
+	Struture used to orientate result values after a trasformation:
+	whenever a transformation which result in a new shape getting created is used,
+	a ModResult is returned, where every value of it cointains the indices of the
+	the faces of the new shape in the array of faces of the building.
+*/
 struct ModResult {
 	int up = 0;
 	int down = 0;
@@ -101,10 +103,12 @@ struct Face {
 };
 
 
-//structure used to moodel buildings, very similar to the shape in the ygl library,
-//but with some minor differences on variables for easier use.
-//It is additionally free from all those values which are not directly related to the
-//modelling of the building itself (i.e. textures)
+/*
+	Structure used to moodel buildings, very similar to the shape in the ygl library,
+	but with some minor differences on variables for easier use.
+	It is additionally free from all those values which are not directly related to the
+	modelling of the building itself (i.e. textures)
+*/
 struct Building {
 	std::vector<Face> faces;
 	std::vector<ygl::vec3f> points;
@@ -166,7 +170,17 @@ std::vector<int> subdivideFace(Building* b, int f, int w, int h);
 
 
 
-
+/*
+   Function used to divide a given face in two horizontal slices. With the bottom one
+   being of the size given (relative to the starting size of the face, from 0 to 1).
+   INPUT:
+		-b: the building to modify
+		-f: the index of the face to modify
+		-h: the size of the bottom face, relative to the starting one (with: 0 < h <1)
+   RETURN VALUE:
+		The array with the two created faces is returned. With the first value referring
+		to the top-most face (just like a 1 by 2 grid).
+*/
 std::vector<int> horizontalSlice(Building* b, int f, float h);
 
 
@@ -240,11 +254,12 @@ std::vector<ModResult> pullFace(Building* b, std::vector<int> f, float value, in
   INPUT:
 		-b: the building to modify
 		-axis: the axis that the roofs top will follow when created
+		-amnt: the height of the roofs
   RETURN VALUE:
 		None.
 
 */
-void makeRoofs(Building* b, ygl::vec3f axis, int amnt);
+void makeRoofs(Building* b, ygl::vec3f axis, float amnt);
 
 
 /*
@@ -260,11 +275,12 @@ void makeRoofs(Building* b, ygl::vec3f axis, int amnt);
 		-b: the building to modify
 		-f: the index of face to transform into a roof
 		-axis: the axis that the roofs top will follow when created
+		-amnt: the height of the roof
   RETURN VALUE:
 		None.
 
 */
-void pointFace(Building* b, int f, ygl::vec3f axis, int amnt);
+void pointFace(Building* b, int f, ygl::vec3f axis, float amnt);
 
 
 /*

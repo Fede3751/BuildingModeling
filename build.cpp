@@ -1,7 +1,7 @@
 /*
 
 BUILDING MODELING.
-Computer Graphic Project 2017-2018
+Computer Graphics Project 2017-2018
 Student: Federico Trombetti
 ID: 1665803
 
@@ -224,14 +224,10 @@ std::vector<int> horizontalSlice(Building* b, int f, float h) {
 	b->faces.push_back({ {p1Ind, p2Ind, v.z, v.w}, b->faces[f].orientation });
 	b->faces[f].v = { v.x, v.y, p2Ind, p1Ind };
 
-	return { f, (int)b->faces.size() - 1 };
+	return {(int)b->faces.size() - 1, f};
 
 
 }
-
-//void Building::subdivideFace(int n, int f) {};
-
-
 
 ModResult pullFace(Building* b, int f, float value) {
 
@@ -395,7 +391,7 @@ std::vector<int> subFace(Building* b, std::vector<int> f, float xSub, float ySub
 }
 
 
-void makeRoofs(Building* b, ygl::vec3f axis, int amnt) {
+void makeRoofs(Building* b, ygl::vec3f axis, float amnt) {
 
 	int i = 0;
 	for (Face f : b->faces) {
@@ -409,7 +405,7 @@ void makeRoofs(Building* b, ygl::vec3f axis, int amnt) {
 }
 
 
-void pointFace(Building* b, int f, ygl::vec3f axis, int amnt) {
+void pointFace(Building* b, int f, ygl::vec3f axis, float amnt) {
 
 
 	auto v = b->faces[f].v;
@@ -473,8 +469,6 @@ ygl::shape* buildingToShape(Building* b, ygl::material* mat) {
 		res->texcoord.push_back(ygl::vec2f{ 100,100 });
 		res->texcoord1.push_back(ygl::vec2f{ 100,100 });
 
-		//res->quads_pos.push_back({ 4,5,6,7 });
-		//res->quads_texcoord.push_back({ 4,5,6,7 })
 	}
 
 	return res;
